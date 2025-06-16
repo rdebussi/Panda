@@ -57,7 +57,7 @@ Antes de começar, certifique-se de ter os seguintes softwares instalados em seu
 
     * Navegue até a pasta do backend:
         ```bash
-        cd backend
+        cd Backend
         ```
     * Copie o arquivo de exemplo:
         ```bash
