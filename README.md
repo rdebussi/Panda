@@ -101,7 +101,7 @@ Esta seção documenta comportamentos inesperados encontrados na API da Panda Vi
 
 * BUG-001: Campo 'description' não é atualizado ao enviar string vazia
 
-* Foi identificado um comportamento inesperado no endpoint de atualização de vídeos (PUT /videos/{id}). Ao tentar limpar o campo description de um vídeo enviando uma string vazia (""), a API ignora a alteração deste campo específico. A requisição é processada com sucesso (status 200 OK) e o timestamp updated_at é atualizado, mas o valor da descrição permanece inalterado.
+* Foi identificado um comportamento inesperado no endpoint de atualização de vídeos (PUT /videos/{id}). Ao tentar limpar o campo description de um vídeo enviando uma string vazia (""), a API ignora a alteração deste campo específico. A requisição é processada com sucesso (status 200 OK), mas o valor da descrição permanece inalterado.
 
 ### Passos para Reproduzir
 * Identificar um vídeo que possua um valor preenchido no campo description (ex: "a").
