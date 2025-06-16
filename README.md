@@ -126,7 +126,7 @@ Esta seção documenta comportamentos inesperados encontrados na API da Panda Vi
 ```
 
 ### Resultado Atual:
-* O campo description retorna com seu valor original, pré-atualização. O campo updated_at, no entanto, é atualizado, confirmando que a requisição foi processada.
+* O campo description retorna com seu valor original, pré-atualização. A API retorna 200 como resposta, confirmando que a requisição foi processada.
 
 ```Json
 {
@@ -141,4 +141,4 @@ Esta seção documenta comportamentos inesperados encontrados na API da Panda Vi
 ```
 
 ### Análise e Notas Adicionais
-* A atualização do timestamp updated_at sugere que a requisição em si é válida e o recurso é "tocado" no banco de dados. No entanto, a lógica de negócio da API parece tratar a string vazia ("") como um valor "não fornecido" ou a ser ignorado para o campo description, em vez de ativamente limpar o campo.
+* A requisição em si é válida e o recurso é "tocado" no banco de dados. No entanto, a lógica de negócio da API parece tratar a string vazia ("") como um valor "não fornecido" ou a ser ignorado para o campo description, em vez de ativamente limpar o campo.
