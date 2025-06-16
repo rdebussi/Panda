@@ -1,6 +1,6 @@
 # Projeto de Interface para Panda Video API
 
-## 📖 Sobre o Projeto
+##  Sobre o Projeto
 
 Esta é uma aplicação full-stack que serve como uma interface de usuário para a API da [Panda Video](https://pandavideo.com/). A aplicação permite autenticação de usuários, listagem, visualização e busca de vídeos e pastas hospedados na plataforma Panda, utilizando um backend próprio como intermediário para otimizar e controlar o acesso.
 
@@ -8,7 +8,7 @@ O projeto foi totalmente "containerizado" com Docker, garantindo um ambiente de 
 
 ---
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
 * **Autenticação de Usuários:** Sistema de Cadastro e Login com JWT (JSON Web Tokens).
 * **Dashboard Interativa:** Visualize todos os seus vídeos e pastas.
@@ -21,7 +21,7 @@ O projeto foi totalmente "containerizado" com Docker, garantindo um ambiente de 
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 * **Frontend:** Vue.js (v2), Vuetify (v2), Vue Router, Axios
 * **Backend:** Node.js, Express.js
@@ -33,7 +33,7 @@ O projeto foi totalmente "containerizado" com Docker, garantindo um ambiente de 
 
 ---
 
-## 🚀 Como Executar o Projeto
+##  Como Executar o Projeto:
 
 Siga os passos abaixo para ter a aplicação rodando em sua máquina local.
 
@@ -87,9 +87,58 @@ Antes de começar, certifique-se de ter os seguintes softwares instalados em seu
         ```
     * O Docker irá baixar as imagens necessárias (MySQL, Redis, Node), construir seus contêineres e iniciá-los. Este processo pode levar alguns minutos na primeira vez.
 
+
 ### Acessando a Aplicação
 
 Depois que todos os contêineres estiverem rodando, a aplicação estará disponível nos seguintes endereços:
 
 * **Frontend (Aplicação Web):** [http://localhost:8080](http://localhost:8080)
 * **Backend (API):** [http://localhost:3000](http://localhost:3000)
+  
+
+## Report de Bugs da API da Panda: 
+Esta seção documenta comportamentos inesperados encontrados na API da Panda Video (https://api-v2.pandavideo.com.br) durante o desenvolvimento deste projeto. O objetivo é manter um registro para referência futura e para guiar o desenvolvimento de contornos (workarounds) necessários.
+
+* BUG-001: Campo 'description' não é atualizado ao enviar string vazia
+
+* Foi identificado um comportamento inesperado no endpoint de atualização de vídeos (PUT /videos/{id}). Ao tentar limpar o campo description de um vídeo enviando uma string vazia (""), a API ignora a alteração deste campo específico. A requisição é processada com sucesso (status 200 OK) e o timestamp updated_at é atualizado, mas o valor da descrição permanece inalterado.
+
+### Passos para Reproduzir
+* Identificar um vídeo que possua um valor preenchido no campo description (ex: "a").
+* Realizar uma requisição do tipo PUT para o endpoint: https://api-v2.pandavideo.com.br/videos/{video_id}.
+* No corpo (body) da requisição, enviar o seguinte JSON:
+
+```Json
+{
+    "description": ""
+}
+```
+* Observar o corpo da resposta e verificar o valor do campo description.
+  
+### Resultado Esperado: O campo description no objeto de resposta deveria ser uma string vazia.
+
+```Json
+{
+    "id": "89fddbb4-4315-473e-b91a-2bf454b6b338",
+    "description": "",
+    "...": "..."
+}
+```
+
+### Resultado Atual:
+* O campo description retorna com seu valor original, pré-atualização. O campo updated_at, no entanto, é atualizado, confirmando que a requisição foi processada.
+
+```Json
+{
+    "id": "89fddbb4-4315-473e-b91a-2bf454b6b338",
+    "title": "testando",
+    "description": "a",
+    "status": "CONVERTED",
+    "...": "..."
+    "updated_at": "2025-06-16T12:53:10.000Z",
+    "...": "..."
+}
+```
+
+### Análise e Notas Adicionais
+* A atualização do timestamp updated_at sugere que a requisição em si é válida e o recurso é "tocado" no banco de dados. No entanto, a lógica de negócio da API parece tratar a string vazia ("") como um valor "não fornecido" ou a ser ignorado para o campo description, em vez de ativamente limpar o campo.
