@@ -47,8 +47,8 @@ Antes de começar, certifique-se de ter os seguintes softwares instalados em seu
 
 1.  **Clone o Repositório**
     ```bash
-    git clone <url-do-seu-repositorio>
-    cd <nome-do-seu-repositorio>
+    git clone <https://github.com/rdebussi/Panda.git>
+    cd <Panda>
     ```
 
 2.  **Configure as Variáveis de Ambiente**
